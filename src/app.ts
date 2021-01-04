@@ -1,7 +1,9 @@
 require('dotenv').config();
 import express from "express";
 import path from "path";
+import cors from "cors";
 import { ApiError } from "./errors/apiError";
+
 //Add if needed
 //import { requestLogger, errorLogger } from "./middlewares/logger";
 
@@ -12,17 +14,20 @@ app.use(express.static(path.join(process.cwd(), "public")))
 //  Add if needed
 //app.use(requestLogger)
 
+//app.use(cors)
 
 app.use(express.json())
 
 //const userAPIRouter = require('./routes/userApi');
 const userAPIRouter = require('./routes/userApiDB');
+const graphqlAPI = require('./routes/graphqlAPI');
 
 app.get("/api/dummy", (req, res) => {
   res.json({ msg: "Hello" })
 })
 
 app.use("/api/users", userAPIRouter);
+app.use("/graphql",graphqlAPI)
 
 //  Add if needed
 // app.use(errorLogger)
